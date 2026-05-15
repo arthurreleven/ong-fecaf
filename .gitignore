@@ -1,0 +1,23 @@
+# .gitignore (raiz)
+
+# Arquivos de ambiente
+**/.env
+**/.env.local
+**/.env.production
+.env
+
+# Node modules
+**/node_modules/
+node_modules/
+
+# Build folders
+**/dist/
+**/build/
+
+# Logs
+**/*.log
+npm-debug.log*
+
+/backend/client_secret.json
+
+/__pycache__/

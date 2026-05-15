@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Coda:wght@400;800&display=swap');
+@import "tailwindcss";
+
+.font-anton {
+  font-family: "Anton", sans-serif;
+}
+
+.font-bangers {
+  font-family: "Bangers", cursive;
+}
+
+.font-coda-400 {
+  font-family: 'Coda', sans-serif;
+  font-weight: 400;
+}
+
+.font-coda-800 {
+  font-family: "Coda", sans-serif;
+  font-weight: 800;
+}
