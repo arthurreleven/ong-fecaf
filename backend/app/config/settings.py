@@ -24,7 +24,8 @@ class Config:
     MP_WEBHOOK_URL    = os.getenv("MP_WEBHOOK_URL", "")
 
     # ── CORS ───────────────────────────────────────────────────────────────────
-    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    # CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    CORS_ORIGINS = "*"
 
     # --- Time Session ----------------------------------------------------------
     SESSION_COOKIE_HTTPONLY = True

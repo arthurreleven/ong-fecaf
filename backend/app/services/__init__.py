@@ -10,7 +10,8 @@ def create_app() -> Flask:
     app.config.from_object(Config)
 
     # CORS — permite o React (porta 5173) acessar a API
-    CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     # Banco de dados
     init_db(app)

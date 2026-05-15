@@ -15,7 +15,8 @@ def create_app() -> Flask:
     # Sessão permanente de 8h
     app.permanent_session_lifetime = timedelta(hours=8)
 
-    CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     init_db(app)
 
