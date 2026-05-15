@@ -12,7 +12,6 @@ const formatData = (iso: string) =>
 
 type Status  = "pendente" | "confirmado" | "cancelado";
 type Tipo    = "pix" | "transferencia" | "dinheiro" | "item";
-type Origem  = "webhook" | "manual";
 
 const STATUS_STYLE: Record<Status, CSSProperties> = {
   confirmado: { background: "#0a3d1f", color: "#4ade80", border: "1px solid #166534" },
@@ -58,13 +57,6 @@ function Skeleton({ w = "100%", h = 16 }: { w?: string | number; h?: number }) {
   );
 }
 
-function Badge({ status }: { status: Status }) {
-  return (
-    <span style={{ ...STATUS_STYLE[status], padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 600 }}>
-      {status}
-    </span>
-  );
-}
 
 function Modal({ titulo, onFechar, children }: { titulo: string; onFechar: () => void; children: React.ReactNode }) {
   return (
