@@ -6,19 +6,18 @@ from app.database.db import init_db
 
 
 def create_app() -> Flask:
-     app = Flask(__name__)
+    app = Flask(__name__)
     app.config.from_object(Config)
 
-    app.permanent_session_lifetime = timedelta(hours=8)
-
-    CORS(app, origins="*", supports_credentials=False)
-
-    @app.after_request
-    def add_cors_headers(response):
-        response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-        return response
+    # CORS — permite o React (porta 5173) acessar a API
+    # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    CORS(
+    app,
+    origins="*",
+    supports_credentials=False,  # OBRIGATÓRIO com origins="*"
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+)
 
     # Banco de dados
     init_db(app)

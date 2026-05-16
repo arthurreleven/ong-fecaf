@@ -12,18 +12,16 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Sessão permanente de 8h
     app.permanent_session_lifetime = timedelta(hours=8)
 
-    CORS(app, origins="*", supports_credentials=False)
-
-    @app.after_request
-    def add_cors_headers(response):
-        response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-        return response
-
-
+    # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
+    CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "DELETE"]
+)
     init_db(app)
 
     app.register_blueprint(doacoes_bp)
