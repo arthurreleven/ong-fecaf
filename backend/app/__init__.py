@@ -12,18 +12,29 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Sessão permanente de 8h
     app.permanent_session_lifetime = timedelta(hours=8)
 
-    # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
-    CORS(
-    app,
-    origins="*",
-    supports_credentials=False,  # OBRIGATÓRIO com origins="*"
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-)
+    CORS(app, origins="*", supports_credentials=False)
 
+    # Garantia manual — injeta CORS em TODAS as respostas
+    @app.after_request
+    def add_cors_headers(response):
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        return response
+
+    # Responde preflight OPTIONS globalmente
+    @app.before_request
+    def handle_options():
+        if request.method == "OPTIONS":
+            res = app.make_default_options_response()
+            res.headers["Access-Control-Allow-Origin"] = "*"
+            res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+            res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+            return res
+
+            
     init_db(app)
 
     app.register_blueprint(doacoes_bp)
