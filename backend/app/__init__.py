@@ -16,7 +16,13 @@ def create_app() -> Flask:
     app.permanent_session_lifetime = timedelta(hours=8)
 
     # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
-    CORS(app)
+    CORS(
+    app,
+    origins="*",
+    supports_credentials=False,  # OBRIGATÓRIO com origins="*"
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+)
 
     init_db(app)
 
