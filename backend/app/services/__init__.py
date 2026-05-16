@@ -15,7 +15,7 @@ def create_app() -> Flask:
         app,
         resources={r"/*": {"origins": "*"}},
         allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        methods=["GET", "POST", "PUT", "DELETE"]
     )
 
     # Banco de dados

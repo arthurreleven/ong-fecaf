@@ -15,7 +15,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
 # Flask-Limiter retorna 429 automaticamente se ultrapassar.
 # O contador reseta sozinho após a janela de tempo.
 
-@auth_bp.route("/login", methods=["POST", "OPTIONS"])
+@auth_bp.route("/login", methods=["POST"])
 @limiter.limit("5 per minute")
 @limiter.limit("20 per hour")
 def login():
@@ -37,26 +37,26 @@ def login():
     return jsonify({"mensagem": "Login realizado com sucesso.", "usuario": usuario.to_dict()}), 200
 
 
-@auth_bp.route("/logout", methods=["POST", "OPTIONS"])
+@auth_bp.route("/logout", methods=["POST"])
 def logout():
     AuthService.logout()
     return jsonify({"mensagem": "Logout realizado."}), 200
 
 
-@auth_bp.route("/me", methods=["GET", "OPTIONS"])
+@auth_bp.route("/me", methods=["GET"])
 @login_required
 def me():
     usuario = AuthService.usuario_atual()
     return jsonify(usuario.to_dict()), 200
 
 
-@auth_bp.route("/usuarios", methods=["GET", "OPTIONS"])
+@auth_bp.route("/usuarios", methods=["GET"])
 @admin_required
 def listar_usuarios():
     return jsonify(AuthService.listar_usuarios()), 200
 
 
-@auth_bp.route("/usuarios", methods=["POST", "OPTIONS"])
+@auth_bp.route("/usuarios", methods=["POST"])
 @admin_required
 def criar_usuario():
     dados = request.get_json()
@@ -69,7 +69,7 @@ def criar_usuario():
         return jsonify({"erro": str(e)}), 400
 
 
-@auth_bp.route("/usuarios/<int:uid>", methods=["PATCH", "OPTIONS"])
+@auth_bp.route("/usuarios/<int:uid>", methods=["PATCH"])
 @admin_required
 def atualizar_usuario(uid: int):
     dados = request.get_json()
@@ -84,7 +84,7 @@ def atualizar_usuario(uid: int):
         return jsonify({"erro": str(e)}), 400
 
 
-@auth_bp.route("/usuarios/<int:uid>", methods=["DELETE", "OPTIONS"])
+@auth_bp.route("/usuarios/<int:uid>", methods=["DELETE"])
 @admin_required
 def deletar_usuario(uid: int):
     admin = AuthService.usuario_atual()

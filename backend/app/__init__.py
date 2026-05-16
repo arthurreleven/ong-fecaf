@@ -20,8 +20,9 @@ def create_app() -> Flask:
         app,
         resources={r"/*": {"origins": "*"}},
         allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        methods=["GET", "POST", "PUT", "DELETE"]
     )
+    
     init_db(app)
 
     app.register_blueprint(doacoes_bp)
