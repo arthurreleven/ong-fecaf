@@ -16,7 +16,6 @@ def create_app() -> Flask:
 
     CORS(app, origins="*", supports_credentials=False)
 
-    # Garantia manual — injeta CORS em TODAS as respostas
     @app.after_request
     def add_cors_headers(response):
         response.headers["Access-Control-Allow-Origin"] = "*"
@@ -24,17 +23,7 @@ def create_app() -> Flask:
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         return response
 
-    # Responde preflight OPTIONS globalmente
-    @app.before_request
-    def handle_options():
-        if request.method == "OPTIONS":
-            res = app.make_default_options_response()
-            res.headers["Access-Control-Allow-Origin"] = "*"
-            res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-            res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-            return res
 
-            
     init_db(app)
 
     app.register_blueprint(doacoes_bp)

@@ -6,30 +6,19 @@ from app.database.db import init_db
 
 
 def create_app() -> Flask:
-   app = Flask(__name__)
+     app = Flask(__name__)
     app.config.from_object(Config)
 
     app.permanent_session_lifetime = timedelta(hours=8)
 
     CORS(app, origins="*", supports_credentials=False)
 
-    # Garantia manual — injeta CORS em TODAS as respostas
     @app.after_request
     def add_cors_headers(response):
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         return response
-
-    # Responde preflight OPTIONS globalmente
-    @app.before_request
-    def handle_options():
-        if request.method == "OPTIONS":
-            res = app.make_default_options_response()
-            res.headers["Access-Control-Allow-Origin"] = "*"
-            res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-            res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-            return res
 
     # Banco de dados
     init_db(app)
