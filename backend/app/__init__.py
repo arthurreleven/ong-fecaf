@@ -38,5 +38,11 @@ def create_app() -> Flask:
     @app.route("/api/health")
     def health():
         return {"status": "ok"}, 200
+    
+    @app.route("/api/debug")
+    def debug():
+        from flask import jsonify
+        rules = [str(r) for r in app.url_map.iter_rules()]
+        return jsonify(rules)
 
     return app

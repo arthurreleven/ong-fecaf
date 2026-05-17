@@ -25,27 +25,7 @@ def pix_webhook():
 
 # ── Gerar QR Code PIX ─────────────────────────────────────────────────────────
 
-@doacoes_bp.route("/doacoes/gerar-pix", methods=["POST", "OPTIONS"])
-def gerar_pix():
-    try:
-        dados = request.get_json()
 
-        valor = dados.get("valor")
-        email = dados.get("email", "doador@email.com")
-        nome  = dados.get("nome",  "Doador")
-
-        resultado = PixService.gerar_cobranca(
-            valor=float(valor),
-            email=email,
-            nome=nome,
-        )
-
-        return jsonify(resultado), 201
-
-    except Exception as e:
-        return jsonify({
-            "erro": str(e)
-        }), 500
 
 
 # ── CRUD de doações ────────────────────────────────────────────────────────────

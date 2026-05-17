@@ -92,12 +92,3 @@ class PixService:
         except requests.RequestException as e:
             current_app.logger.error(f"Erro ao consultar payment {payment_id}: {e}")
             return None
-
-
-
-
-
-
-
-
-            
