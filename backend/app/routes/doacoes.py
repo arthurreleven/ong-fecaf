@@ -8,7 +8,7 @@ doacoes_bp = Blueprint("doacoes", __name__, url_prefix="/api")
 
 # ── Webhook Mercado Pago ───────────────────────────────────────────────────────
 
-@doacoes_bp.route("/pix/webhook", methods=["POST"])
+@doacoes_bp.route("/pix/webhook", methods=["POST", "OPTIONS"])
 def pix_webhook():
     payload    = request.get_json(force=True, silent=True) or {}
     x_sig      = request.headers.get("x-signature", "")
@@ -50,7 +50,7 @@ def gerar_pix():
 
 # ── CRUD de doações ────────────────────────────────────────────────────────────
 
-@doacoes_bp.route("/doacoes", methods=["GET"])
+@doacoes_bp.route("/doacoes", methods=["GET", "OPTIONS"])
 def listar_doacoes():
     tipo       = request.args.get("tipo")
     status     = request.args.get("status")
@@ -64,7 +64,7 @@ def listar_doacoes():
     return jsonify(resultado), 200
 
 
-@doacoes_bp.route("/doacoes", methods=["POST"])
+@doacoes_bp.route("/doacoes", methods=["POST", "OPTIONS"])
 def criar_doacao():
     dados = request.get_json()
     if not dados or not dados.get("doador_nome"):
@@ -90,14 +90,14 @@ def atualizar_status(doacao_id: int):
     return jsonify(doacao.to_dict()), 200
 
 
-@doacoes_bp.route("/doacoes/resumo", methods=["GET"])
+@doacoes_bp.route("/doacoes/resumo", methods=["GET", "OPTIONS"])
 def resumo():
     return jsonify(DoacaoService.resumo()), 200
 
 
 # ── Consultar status do pagamento (polling do frontend) ───────────────────────
 
-@doacoes_bp.route("/doacoes/pix/<payment_id>/status", methods=["GET"])
+@doacoes_bp.route("/doacoes/pix/<payment_id>/status", methods=["GET", "OPTIONS"])
 def status_pix(payment_id: str):
     """
     O frontend chama esse endpoint a cada 5s para saber se o doador já pagou.
