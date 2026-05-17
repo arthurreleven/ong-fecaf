@@ -12,8 +12,9 @@ class Config:
     # ── PostgreSQL ─────────────────────────────────────────────────────────────
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://ong_user:123456@localhost:5432/ong_doacoes"
+        "postgresql://neondb_owner:npg_GocZvTA0d5NQ@ep-spring-hill-acv84bg3.sa-east-1.aws.neon.tech/neondb?sslmode=require"
     )
+    SQLALCHEMY_ENGINE_OPTIONS = {"connect_args": {"sslmode": "require"}}
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # ── Mercado Pago ───────────────────────────────────────────────────────────

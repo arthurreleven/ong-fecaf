@@ -9,8 +9,15 @@ from app.routes.auth import auth_bp
 
 
 def create_app() -> Flask:
-    app = Flask(__name__)
-    app.config.from_object(Config)
+    try:
+        app = Flask(__name__)
+        app.config.from_object(Config)
+        # ... resto do código
+        return app
+    except Exception as e:
+        print(f"ERRO NA INICIALIZAÇÃO: {e}", file=sys.stderr)
+        traceback.print_exc()
+        raise
 
     # Sessão permanente de 8h
     app.permanent_session_lifetime = timedelta(hours=8)
