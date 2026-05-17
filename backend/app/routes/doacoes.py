@@ -25,33 +25,27 @@ def pix_webhook():
 
 # ── Gerar QR Code PIX ─────────────────────────────────────────────────────────
 
-@doacoes_bp.route("/doacoes/gerar-pix", methods=["POST"])
+@doacoes_bp.route("/doacoes/gerar-pix", methods=["POST", "OPTIONS"])
 def gerar_pix():
-    """
-    Recebe { valor, nome, email } e retorna um QR code PIX para o doador pagar.
-    Quando o doador pagar, o MP chama /pix/webhook automaticamente.
-    """
-    dados = request.get_json()
-    if not dados:
-        return jsonify({"erro": "Body obrigatório"}), 400
+    try:
+        dados = request.get_json()
 
-    valor = dados.get("valor")
-    email = dados.get("email", "doador@email.com")
-    nome  = dados.get("nome",  "Doador")
+        valor = dados.get("valor")
+        email = dados.get("email", "doador@email.com")
+        nome  = dados.get("nome",  "Doador")
 
-    if not valor or float(valor) <= 0:
-        return jsonify({"erro": "Informe um valor maior que zero"}), 400
+        resultado = PixService.gerar_cobranca(
+            valor=float(valor),
+            email=email,
+            nome=nome,
+        )
 
-    resultado = PixService.gerar_cobranca(
-        valor=float(valor),
-        email=email,
-        nome=nome,
-    )
+        return jsonify(resultado), 201
 
-    if not resultado:
-        return jsonify({"erro": "Erro ao gerar cobrança no Mercado Pago"}), 502
-
-    return jsonify(resultado), 201
+    except Exception as e:
+        return jsonify({
+            "erro": str(e)
+        }), 500
 
 
 # ── CRUD de doações ────────────────────────────────────────────────────────────

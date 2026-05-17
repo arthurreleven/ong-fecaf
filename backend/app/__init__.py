@@ -20,7 +20,7 @@ def create_app() -> Flask:
         app,
         resources={r"/*": {"origins": "*"}},
         allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "DELETE"]
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
     init_db(app)
 

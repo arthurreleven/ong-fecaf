@@ -12,11 +12,11 @@ def create_app() -> Flask:
     # CORS — permite o React (porta 5173) acessar a API
     # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
     CORS(
-    app,
-        origins="*",
-        supports_credentials=False,  # OBRIGATÓRIO com origins="*"
+        app,
+        origins=app.config["CORS_ORIGINS"],
+        supports_credentials=True,
         allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     )
 
     # Banco de dados
