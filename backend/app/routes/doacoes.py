@@ -10,6 +10,8 @@ doacoes_bp = Blueprint("doacoes", __name__, url_prefix="/api")
 
 @doacoes_bp.route("/pix/webhook", methods=["POST", "OPTIONS"])
 def pix_webhook():
+    if request.method == "OPTIONS":
+        return {}, 200
     payload    = request.get_json(force=True, silent=True) or {}
     x_sig      = request.headers.get("x-signature", "")
     request_id = request.headers.get("x-request-id", "")
@@ -27,9 +29,11 @@ def pix_webhook():
 
 @doacoes_bp.route("/doacoes/gerar-pix", methods=["POST", "OPTIONS"])
 def gerar_pix():
+    if request.method == "OPTIONS":
+        return {}, 200
+
     try:
         dados = request.get_json()
-
         valor = dados.get("valor")
         email = dados.get("email", "doador@email.com")
         nome  = dados.get("nome",  "Doador")
@@ -43,15 +47,15 @@ def gerar_pix():
         return jsonify(resultado), 201
 
     except Exception as e:
-        return jsonify({
-            "erro": str(e)
-        }), 500
+        return jsonify({"erro": str(e)}), 500
 
 
 # ── CRUD de doações ────────────────────────────────────────────────────────────
 
 @doacoes_bp.route("/doacoes", methods=["GET", "OPTIONS"])
 def listar_doacoes():
+    if request.method == "OPTIONS":
+        return {}, 200
     tipo       = request.args.get("tipo")
     status     = request.args.get("status")
     pagina     = int(request.args.get("pagina", 1))
