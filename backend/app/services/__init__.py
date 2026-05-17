@@ -13,11 +13,11 @@ def create_app() -> Flask:
     # CORS(app, origins=app.config["CORS_ORIGINS"], supports_credentials=True)
     CORS(
     app,
-    origins="*",
-    supports_credentials=False,  # OBRIGATÓRIO com origins="*"
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
-)
+        origins="*",
+        supports_credentials=False,  # OBRIGATÓRIO com origins="*"
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+    )
 
     # Banco de dados
     init_db(app)

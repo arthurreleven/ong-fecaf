@@ -49,7 +49,8 @@ export default function Login() {
   const [countdown,   setCountdown]   = useState(0);
 
   // Calcula se ainda está bloqueado ao montar (ou após refresh)
-  const bloqueado = bloqueadoAte !== null && Date.now() < bloqueadoAte;
+  // const bloqueado = bloqueadoAte !== null && Date.now() < bloqueadoAte;
+  const bloqueado = false
 
   // Countdown em tempo real
   useEffect(() => {
